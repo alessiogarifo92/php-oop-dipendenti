@@ -28,7 +28,7 @@
         public function setName($name)
         {
             if (strlen($name) <= 3) {
-                throw new Exception('Name must have more than 3 letters<br>');
+                throw new MoreThanThree('Name must have more than 3 letters<br>');
             }
             $this -> name = $name;
         }
@@ -99,7 +99,7 @@
         public function setRal($ral)
         {
             if ($ral < 10000 || $ral > 100000) {
-                throw new Exception('Must be between 10.000 and 100.000<br>');
+                throw new BetweenRange('Must be between 10.000 and 100.000<br>');
             }
             $this -> ral = $ral;
         }
@@ -224,18 +224,22 @@
         }
     }
 
+    class MoreThanThree extends Exception{}
+    class BetweenRange extends Exception{}
+
     try {
-        $person = new Person('Al', 'Garifo', '11/09/1992', 16546);
+        $person = new Person('Alessio', 'Garifo', '11/09/1992', 16546);
         echo $person . '<br><br>';
-    } catch (Exception $e) {
+    } catch (MoreThanThree $e) {
         echo 'Errore : Nome deve avere piu di 3 lettere<br>';
     }
 
     try {
-        $employee = new Employee('Al', 'Garifo', '11/09/1992', 16546, 1000549, 'wegwe', 'gsdgwg', 'gwegweg');
+        $employee = new Employee('Al', 'Garifo', '11/09/1992', 16546, 10055, 'wegwe', 'gsdgwg', 'gwegweg');
         echo $employee . '<br><br>';
-    } catch (Exception $e) {
-        echo 'Errore : Ral al di fuori di range 10.000-100.000<br>';
+    } catch (MoreThanThree | BetweenRange $a) {
+        echo 'Errore : Nome deve avere piu di 3 lettere<br>
+                      Ral al di fuori di range 10.000-100.000<br>';
     }
     echo "dasda";
 
