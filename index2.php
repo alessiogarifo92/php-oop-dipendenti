@@ -235,12 +235,13 @@
     }
 
     try {
-        $employee = new Employee('Al', 'Garifo', '11/09/1992', 16546, 10055, 'wegwe', 'gsdgwg', 'gwegweg');
+        $employee = new Employee('Aled', 'Garifo', '11/09/1992', 16546, 1005, 'wegwe', 'gsdgwg', 'gwegweg');
         echo $employee . '<br><br>';
-    } catch (MoreThanThree | BetweenRange $a) {
-        echo 'Errore : Nome deve avere piu di 3 lettere<br>
-                      Ral al di fuori di range 10.000-100.000<br>';
-    }
+    } catch (MoreThanThree $a) {
+        echo 'Errore : Nome deve avere piu di 3 lettere<br>';
+    } catch (BetweenRange $a) {
+          echo 'Errore : Ral al di fuori di range 10.000-100.000<br>';
+      }
     echo "dasda";
 
     $boss = new Boss('Alessio', 'Garifo', '11/09/1992', '16546', 10005, 'wegwe', 'gsdgwg', 'gwegweg', '1655', 'fefeqfqe', 'faefef', ['aldaw']);
