@@ -13,7 +13,7 @@
         private $name;
         private $lastname;
         private $dateOfBirth;
-        private $securyLvl;
+        protected $securyLvl;
         public function __construct($name, $lastname, $dateOfBirth, $securyLvl)
         {
             $this -> setName($name);
@@ -92,6 +92,15 @@
             $this -> setIdCode($idCode);
             $this -> setDateOfHiring($dateOfHiring);
         }
+
+        public function setSecuryLvl($securyLvl)
+        {
+          if ($securyLvl >= 6 && $securyLvl <= 10) {
+            throw new YouAreEmployee("sei un dipendente");
+          }
+            $this -> securyLvl = $securyLvl;
+        }
+
         public function getRal()
         {
             return $this -> $ral;
@@ -172,6 +181,15 @@
             $this -> setSector($sector);
             $this -> setEmployees($employees);
         }
+
+        public function setSecuryLvl($securyLvl)
+        {
+          if ($securyLvl > 1 && $securyLvl < 6) {
+            throw new YouAreBoss("sei il boss");
+          }
+            $this -> securyLvl = $securyLvl;
+        }
+
         public function getProfit()
         {
             return $this -> profit;
@@ -202,6 +220,10 @@
         }
         public function setEmployees($employees)
         {
+          // if ($employees != '') {
+          //   throw new CheckNumberEmplyees("hai dei dipendenti");
+          //
+          // }
             $this -> employees = $employees;
         }
         public function __toString()
@@ -214,79 +236,59 @@
         }
         private function getEmpsStr()
         {
-            $str = '';
+            $str = ''; //ad ogni ciclo creiamo variabile di un employee
             for ($x=0;$x<count($this -> getEmployees());$x++) {
                 $emp = $this -> getEmployees()[$x];
                 $fullname = $emp -> getName() . ' ' . $emp -> getLastname();
                 $str .= ($x + 1) . ': ' . $fullname . '<br>';
             }
+            // var_dump($str); die();
             return $str;
         }
     }
 
     class MoreThanThree extends Exception{}
     class BetweenRange extends Exception{}
+    class YouAreEmployee extends Exception{}
+    class YouAreBoss extends Exception{}
+    // class CheckNumberEmplyees extends Exception{}
 
+    // try {
+    //     $person = new Person('Alessio', 'Garifo', '11/09/1992', 16546);
+    //     echo $person . '<br><br>';
+    // } catch (MoreThanThree $e) {
+    //     echo 'Errore : Nome deve avere piu di 3 lettere<br>';
+    // }
+    //
     try {
-        $person = new Person('Alessio', 'Garifo', '11/09/1992', 16546);
-        echo $person . '<br><br>';
-    } catch (MoreThanThree $e) {
+      $employee = new Employee('Alds', 'Garifo', '11/09/1992', 5, 10555, 'wegwe', 'gsdgwg', 'gwegweg');
+      echo $employee . '<br><br>';
+    } catch (MoreThanThree $e) { //possono essere usati per errori singoli ma se entrambi errori   presenti, va a prendere scritta errore del primo(in questo caso che deve avere piu di 3 lettere)
         echo 'Errore : Nome deve avere piu di 3 lettere<br>';
+    } catch (BetweenRange $e) {
+        echo 'Errore : Ral al di fuori di range 10.000-100.000<br>';
+    } catch (YouAreEmployee $e) {
+      echo "Sei il boss<br>";
     }
+    // catch (MoreThanThree | BetweenRange $a) {
+    //       echo 'Errore : Nome deve avere piu di 3 lettere<br>' .
+    //       'Ral al di fuori di range 10.000-100.000<br>';
+    // }
+
+
 
     try {
-        $employee = new Employee('Aled', 'Garifo', '11/09/1992', 16546, 1005, 'wegwe', 'gsdgwg', 'gwegweg');
-        echo $employee . '<br><br>';
-    } catch (MoreThanThree $a) {
-        echo 'Errore : Nome deve avere piu di 3 lettere<br>';
-    } catch (BetweenRange $a) {
-          echo 'Errore : Ral al di fuori di range 10.000-100.000<br>';
-      }
-    echo "dasda";
+      $boss = new Boss('Alessio', 'Garifo', '11/09/1992', 8, 10005, 'wegwe', 'gsdgwg', 'gwegweg', '1655', 'fefeqfqe', 'faefef', [$employee]);//errore era nell array perche abbiamo fatto funzione che restituisce la variabile con fullname di ogni employee
+      echo $boss;
+    } catch (YouAreBoss $e) {
+      echo "sei un dipendente";
+    }
+    // catch (CheckNumberEmplyees $e) {
+    //   echo "Hai dei sottoposti";
+    // }
 
-    $boss = new Boss('Alessio', 'Garifo', '11/09/1992', '16546', 10005, 'wegwe', 'gsdgwg', 'gwegweg', '1655', 'fefeqfqe', 'faefef', ['aldaw']);
-    echo $boss;
 
-    echo "dasda";
 
-    // $p1 = new Person(
-    //     '(p)name',
-    //     '(p)lastname',
-    //     '(p)dateOfBirth',
-    //     '(p)securyLvl',
-    // );
-    // // echo 'p1:<br>' . $p1 . '<br><br>';
-    // $e1 = new Employee(
-    //     '(e)name',
-    //     '(e)lastname',
-    //     '(e)dateOfBirth',
-    //     '(e)securyLvl',
-    //     '(e)ral',
-    //     '(e)mainTask',
-    //     '(e)idCode',
-    //     '(e)dateOfHiring',
-    // );
-    // // echo 'e1:<br>' . $e1 . '<br><br>';
-    $b1 = new Boss(
-        '(b)name',
-        '(b)lastname',
-        '(b)dateOfBirth',
-        '(b)securyLvl',
-        '(b)ral',
-        '(b)mainTask',
-        '(b)idCode',
-        '(b)dateOfHiring',
-        '(b)profit',
-        '(b)vacancy',
-        '(b)sector',
-        [
-            $e1,
-            $e1,
-            $e1,
-            $e1,
-        ]
-    );
-    echo 'b1:<br>' . $b1 . '<br><br>';
 
      ?>
 
