@@ -220,20 +220,19 @@
         }
         public function setEmployees($employees)
         {
-          // if ($employees != '') {
-          //   throw new CheckNumberEmplyees("hai dei dipendenti");
-          //
-          // }
+          if (empty($employees)) {
+            throw new CheckNumberEmployees("non hai dipendenti");
+          }
             $this -> employees = $employees;
         }
         public function __toString()
         {
-            return parent::__toString() . '<br>'
-                                  . 'profit: ' . $this -> getProfit() . '<br>'
-                                  . 'vacancy: ' . $this -> getVacancy() . '<br>'
-                                  . 'sector: ' . $this -> getSector() . '<br>'
-                                  . 'employees:<br>' . $this -> getEmpsStr() . '<br>';
-        }
+          return parent::__toString() . '<br>'
+                . 'profit: ' . $this -> getProfit() . '<br>'
+                . 'vacancy: ' . $this -> getVacancy() . '<br>'
+                . 'sector: ' . $this -> getSector() . '<br>'
+                . 'employees:<br>' . $this -> getEmpsStr() . '<br>';
+          }
         private function getEmpsStr()
         {
             $str = ''; //ad ogni ciclo creiamo variabile di un employee
@@ -251,26 +250,52 @@
     class BetweenRange extends Exception{}
     class YouAreEmployee extends Exception{}
     class YouAreBoss extends Exception{}
-    // class CheckNumberEmplyees extends Exception{}
+    class CheckNumberEmployees extends Exception{}
+
+    try {
+        $person = new Person('Alessio', 'Garifo', '11/09/1992', 16546);
+        echo $person . '<br><br>';
+    } catch (MoreThanThree $e) {
+        echo 'Errore : Nome deve avere piu di 3 lettere<br>';
+    }
+
 
     // try {
-    //     $person = new Person('Alessio', 'Garifo', '11/09/1992', 16546);
-    //     echo $person . '<br><br>';
-    // } catch (MoreThanThree $e) {
-    //     echo 'Errore : Nome deve avere piu di 3 lettere<br>';
-    // }
+    //   $employee = new Employee('Al', 'Garifo', '11/09/1992', 6, 10555, 'wegwe', 'gsdgwg', 'gwegweg');
+    //     echo $employee . '<br><br>';
+    // } catch (Exception $e) {
     //
+    //       echo 'Error Boss: ' . $e-> getMessage() . '<br>';
+    //
+    // }
+     //////////// N.B in questo modo si puo lasciare le exception e a seconda dell errore prende messaggio direttamente da if e lo inserisce////////////////
+
+
+
     try {
       $employee = new Employee('Alds', 'Garifo', '11/09/1992', 5, 10555, 'wegwe', 'gsdgwg', 'gwegweg');
       echo $employee . '<br><br>';
-    } catch (MoreThanThree $e) { //possono essere usati per errori singoli ma se entrambi errori   presenti, va a prendere scritta errore del primo(in questo caso che deve avere piu di 3 lettere)
+    } catch (MoreThanThree $e) {
         echo 'Errore : Nome deve avere piu di 3 lettere<br>';
     } catch (BetweenRange $e) {
         echo 'Errore : Ral al di fuori di range 10.000-100.000<br>';
     } catch (YouAreEmployee $e) {
       echo "Sei il boss<br>";
     }
-    // catch (MoreThanThree | BetweenRange $a) {
+
+    try {
+      $employee2 = new Employee('Beppe', 'Colia', '11/09/1992', 5, 10555, 'wegwe', 'gsdgwg', 'gwegweg');
+      echo $employee . '<br><br>';
+    } catch (MoreThanThree $e) {
+        echo 'Errore : Nome deve avere piu di 3 lettere<br>';
+    } catch (BetweenRange $e) {
+        echo 'Errore : Ral al di fuori di range 10.000-100.000<br>';
+    } catch (YouAreEmployee $e) {
+      echo "Sei il boss<br>";
+    }
+
+
+    // catch (MoreThanThree | BetweenRange $a) { //possono essere usati per errori singoli ma se entrambi errori   presenti, va a prendere scritta errore del primo(in questo caso che deve avere piu di 3 lettere)
     //       echo 'Errore : Nome deve avere piu di 3 lettere<br>' .
     //       'Ral al di fuori di range 10.000-100.000<br>';
     // }
@@ -278,14 +303,14 @@
 
 
     try {
-      $boss = new Boss('Alessio', 'Garifo', '11/09/1992', 8, 10005, 'wegwe', 'gsdgwg', 'gwegweg', '1655', 'fefeqfqe', 'faefef', [$employee]);//errore era nell array perche abbiamo fatto funzione che restituisce la variabile con fullname di ogni employee
+      $boss = new Boss('Alessio', 'Garifo', '11/09/1992', 8, 10005, 'wegwe', 'gsdgwg', 'gwegweg', '1655', 'fefeqfqe', 'faefef', [$employee, $employee2]);//errore era nell array perche abbiamo fatto funzione che restituisce la variabile con fullname di ogni employee
       echo $boss;
     } catch (YouAreBoss $e) {
       echo "sei un dipendente";
     }
-    // catch (CheckNumberEmplyees $e) {
-    //   echo "Hai dei sottoposti";
-    // }
+    catch (CheckNumberEmployees $e) {
+      echo "Non hai dipendenti";
+    }
 
 
 
