@@ -252,6 +252,11 @@
     class YouAreBoss extends Exception{}
     class CheckNumberEmployees extends Exception{}
 
+
+    ?>
+      <h1>Person</h1>
+    <?php
+
     try {
         $person = new Person('Alessio', 'Garifo', '11/09/1992', 16546);
         echo $person . '<br><br>';
@@ -270,7 +275,11 @@
     // }
      //////////// N.B in questo modo si puo lasciare le exception e a seconda dell errore prende messaggio direttamente da if e lo inserisce////////////////
 
+     ?>
 
+      <h1>Employees</h1>
+
+     <?php
 
     try {
       $employee = new Employee('Alds', 'Garifo', '11/09/1992', 5, 10555, 'wegwe', 'gsdgwg', 'gwegweg');
@@ -285,7 +294,7 @@
 
     try {
       $employee2 = new Employee('Beppe', 'Colia', '11/09/1992', 5, 10555, 'wegwe', 'gsdgwg', 'gwegweg');
-      echo $employee . '<br><br>';
+      echo $employee2 . '<br><br>';
     } catch (MoreThanThree $e) {
         echo 'Errore : Nome deve avere piu di 3 lettere<br>';
     } catch (BetweenRange $e) {
@@ -300,7 +309,9 @@
     //       'Ral al di fuori di range 10.000-100.000<br>';
     // }
 
-
+    ?>
+      <h1>Boss</h1>
+    <?php
 
     try {
       $boss = new Boss('Alessio', 'Garifo', '11/09/1992', 8, 10005, 'wegwe', 'gsdgwg', 'gwegweg', '1655', 'fefeqfqe', 'faefef', [$employee, $employee2]);//errore era nell array perche abbiamo fatto funzione che restituisce la variabile con fullname di ogni employee
